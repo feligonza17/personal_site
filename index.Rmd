@@ -1,12 +1,12 @@
 ---
-title: "Exploración Relaciones Cualitativas Ancho de Banda"
+title: "Exploracion Relaciones Cualitativas Ancho de Banda"
 author: "FGA"
 date: "5 de abril de 2019"
 output: html_document
 ---
 
 ---
-title: "PresentaciÃ³n Ancho de Banda"
+title: "Presentacion Ancho de Banda"
 author: "FGA"
 date: "5 de abril de 2019"
 output:
@@ -29,7 +29,7 @@ library("readxl")
  
 
 ```{r cars, echo = TRUE}
-df <- read_excel("~/Ancho de Banda/Datos Análisis éste sí.xlsx")
+df <- read_excel("~/Ancho de Banda/Datos Analisis este si.xlsx")
 
 
 # Nube de palabras con TODOS los datos ------------------------------------
@@ -57,7 +57,7 @@ d <- data.frame(word = names(v),freq=v)
 
 
 
-#Hacer asociasiones entre los términos
+#Hacer asociasiones entre los tÃƒÂ©rminos
 
 findAssocs(dtm, terms = c("plata","padres","amigo"), corlimit = 0.2)
 ```
@@ -92,7 +92,7 @@ v <- sort(rowSums(m),decreasing=TRUE)
 d <- data.frame(word = names(v),freq=v)
 
 
-#Hacer asociasiones entre los términos
+#Hacer asociasiones entre los tÃƒÂ©rminos
 
 findAssocs(dtm, terms = c("plata","padres","amigo"), corlimit = 0.2)
 
@@ -130,7 +130,7 @@ d <- data.frame(word = names(v),freq=v)
 
 
 
-#Hacer asociasiones entre los términos
+#Hacer asociasiones entre los tÃƒÂ©rminos
 
 findAssocs(dtm, terms = c("plata","padres","amigo"), corlimit = 0.2)
 ```
@@ -164,7 +164,7 @@ d <- data.frame(word = names(v),freq=v)
 
 
 
-#Hacer asociasiones entre los términos
+#Hacer asociasiones entre los tÃƒÂ©rminos
 
 findAssocs(dtm, terms = c("plata","padres","amigo", "dinero"), corlimit = 0.2)
 
@@ -205,7 +205,7 @@ Gruppo Control
  
  
  
- #Hacer asociasiones entre los términos
+ #Hacer asociasiones entre los tÃƒÂ©rminos
  findAssocs(dtm, terms = c("plata","padres","amigo", "dinero"), corlimit = 0.3)
  
 ```

@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="FGA" />
+
+
+<title>Exploración Relaciones Cualitativas Ancho de Banda</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Coyuntura Económica</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Exploración Cualitativa</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Exploración Relaciones Cualitativas Ancho de Banda</h1>
+<h4 class="author">FGA</h4>
+<h4 class="date">5 de abril de 2019</h4>
+
+</div>
+
+
+<pre class="r"><code>df &lt;- read_excel(&quot;~/Ancho de Banda/Datos Análisis éste sí.xlsx&quot;)
+
+
+# Nube de palabras con TODOS los datos ------------------------------------
+
+
+
+#Importarlo en la forma que se necesita para generar la nube de palabras
+dfCorpus &lt;- VCorpus(VectorSource(df$`Respuesta Cualitativa`))
+
+# Convert the text to lower case
+dfCorpus &lt;- tm_map(dfCorpus, content_transformer(tolower))
+# Remove spanish common stopwords
+dfCorpus &lt;- tm_map(dfCorpus, removeWords, stopwords(&quot;spanish&quot;))
+# Remove your own stop word
+# specify your stopwords as a character vector
+dfCorpus &lt;- tm_map(dfCorpus, removeWords, c(&quot;pues&quot;)) 
+# Remove punctuations
+dfCorpus &lt;- tm_map(dfCorpus, removePunctuation)
+
+#Generar frecuencia de palabras
+dtm &lt;- TermDocumentMatrix(dfCorpus)
+m &lt;- as.matrix(dtm)
+v &lt;- sort(rowSums(m),decreasing=TRUE)
+d &lt;- data.frame(word = names(v),freq=v)
+
+
+
+#Hacer asociasiones entre los términos
+
+findAssocs(dtm, terms = c(&quot;plata&quot;,&quot;padres&quot;,&quot;amigo&quot;), corlimit = 0.2)</code></pre>
+<pre><code>## $plata
+## prestada   compré    papás   propia 
+##     0.34     0.23     0.21     0.20 
+## 
+## $padres
+##    presten   devolver comentaria      apoyo     ayudan     empleo 
+##       0.30       0.27       0.25       0.21       0.21       0.21 
+##     lograr      mejor 
+##       0.21       0.21 
+## 
+## $amigo
+##     cuaderno      pagarle       quiera      celular      compara 
+##         0.42         0.40         0.32         0.29         0.29 
+##     cuidando       iphone      mayores        niños        nuevo 
+##         0.29         0.29         0.29         0.29         0.29 
+##      ponques        pesos       ayudar        daría       300000 
+##         0.29         0.28         0.27         0.27         0.26 
+##      comprar         tipo    cuadernos         1000     familiar 
+##         0.26         0.25         0.24         0.22         0.22 
+##          voy      abriría     prefiere primeramente       revise 
+##         0.22         0.21         0.21         0.21         0.21 
+##    siguiente        sitio         iría 
+##         0.21         0.21         0.20</code></pre>
+<p>Esrato Alto</p>
+<pre><code>## $plata
+##   prestada     compré afortunada       alto     amigoo    dañaría 
+##       0.37       0.27       0.24       0.24       0.24       0.24 
+##       dañó    limpiar  necesitar    ocasión      papás     propia 
+##       0.24       0.24       0.24       0.24       0.24       0.24 
+##  rapararlo   recaudar      saber     siento       toda   anterior 
+##       0.24       0.24       0.24       0.24       0.24       0.21 
+## arreglaran      daria      darme    después     ganada     pienso 
+##       0.21       0.21       0.21       0.21       0.21       0.21 
+##   trabajos    pediría     usaria 
+##       0.21       0.20       0.20 
+## 
+## $padres
+##   actualmente         largo     reembolso        acudir          amis 
+##          0.29          0.29          0.29          0.28          0.28 
+##       arrehlo        bobada      bolsillo    comprarían       cuentas 
+##          0.28          0.28          0.28          0.28          0.28 
+##      descuido    explicaría       hacerla        limite      llegaría 
+##          0.28          0.28          0.28          0.28          0.28 
+##        moneda       negocio       ofrecen         parap        pereza 
+##          0.28          0.28          0.28          0.28          0.28 
+##        quiero terminariamos    trabajaria         única         venda 
+##          0.28          0.28          0.28          0.28          0.28 
+##         yendo       presten     comprarle        pueden     situación 
+##          0.28          0.26          0.23          0.23          0.23 
+## 
+## $amigo
+##      celular     cuaderno      pagarle        nuevo       quiera 
+##         0.44         0.44         0.40         0.36         0.36 
+##       ayudar        algun      compara     cuidando      esperar 
+##         0.34         0.32         0.32         0.32         0.32 
+##       iphone      mayores        niños      ponques       presto 
+##         0.32         0.32         0.32         0.32         0.32 
+##         tipo       300000    cuadernos        daría      comprar 
+##         0.31         0.29         0.27         0.27         0.25 
+##        pesos       podría      abriría     prefiere primeramente 
+##         0.24         0.24         0.23         0.23         0.23 
+##       revise        sitio       tiempo         casa        diría 
+##         0.23         0.23         0.23         0.22         0.22 
+##        mismo    siguiente         1000       cambio          doy 
+##         0.22         0.22         0.21         0.21         0.21 
+##   finalmente      hacerlo         iría      pagaría     pregunto 
+##         0.21         0.21         0.21         0.21         0.21 
+##  simplemente     volvería          voy         dañé        ganar 
+##         0.21         0.21         0.21         0.20         0.20 
+##       usaría 
+##         0.20</code></pre>
+<p>Estrato Bajo</p>
+<pre><code>## $plata
+##      comentaria         posible          verdad             doy 
+##            0.35            0.28            0.28            0.27 
+##           favor             …si accidentalmente       accidente 
+##            0.26            0.24            0.24            0.24 
+##      aguantaría       bondadosa            cojí     comentarles 
+##            0.24            0.24            0.24            0.24 
+##          comida       completar        contaría            deje 
+##            0.24            0.24            0.24            0.24 
+##            dejé         despúes      entenderia  esocompletaria 
+##            0.24            0.24            0.24            0.24 
+##           feria       hablarian    materialista        medarian 
+##            0.24            0.24            0.24            0.24 
+##             mes        muchacho           pague            pego 
+##            0.24            0.24            0.24            0.24 
+##        prestara       prestaria      recolectar       regalaria 
+##            0.24            0.24            0.24            0.24 
+##          regaño        resolver           resta          romper 
+##            0.24            0.24            0.24            0.24 
+##         sincero        solución     suficientes       trabajara 
+##            0.24            0.24            0.24            0.24 
+##         celular        prestada          abuela             dio 
+##            0.23            0.23            0.20            0.20 
+## 
+## $padres
+##     devolver       empleo       lograr      presten       ayuden 
+##         0.38         0.38         0.38         0.38         0.32 
+##   comentaria     hablaria       dinero        apoyo        deuda 
+##         0.32         0.30         0.29         0.28         0.28 
+##        mejor      °hablar       °mirar    °realizar          300 
+##         0.28         0.27         0.27         0.27         0.27 
+## alternativas          amm     atención       ayudan      ayudara 
+##         0.27         0.27         0.27         0.27         0.27 
+##   cantitades       celuar        chico    confianza  conseguiría 
+##         0.27         0.27         0.27         0.27         0.27 
+##    contarles     correcto        corto      diarias        exige 
+##         0.27         0.27         0.27         0.27         0.27 
+##   intentaria     limitado        llame       maximo        medio 
+##         0.27         0.27         0.27         0.27         0.27 
+##       pagado     pagarles       paguen       ppesos  situaciones 
+##         0.27         0.27         0.27         0.27         0.27 
+##      sucedio        sutil      tocaria tranquilidad      después 
+##         0.27         0.27         0.27         0.27         0.25 
+##      primero     contaria       llegar          mil 
+##         0.25         0.21         0.21         0.21 
+## 
+## $amigo
+##     familiar       verdad      sucedió          …si     acudiría 
+##         0.40         0.40         0.34         0.33         0.33 
+##    bondadosa  comentarles         deje devolvérselo      ejemplo 
+##         0.33         0.33         0.33         0.33         0.33 
+##    empezaría   entenderia      haberme materialista    ofrecería 
+##         0.33         0.33         0.33         0.33         0.33 
+##       pasado         pego    prestaria    regalaria     resolver 
+##         0.33         0.33         0.33         0.33         0.33 
+##    sanduches     sencillo      sincero     solución   suficiente 
+##         0.33         0.33         0.33         0.33         0.33 
+##    trabajara        trato     cuaderno      colegio      comprar 
+##         0.33         0.33         0.32         0.31         0.27 
+##          así       preste      castigo      comento         dado 
+##         0.24         0.24         0.22         0.22         0.22 
+##       darían          mes      pagarle        parte    prestados 
+##         0.22         0.22         0.22         0.22         0.22 
+##    prestaran   trabajaria 
+##         0.22         0.22</code></pre>
+<p>Grupo Experimental</p>
+<pre><code>## $plata
+##        prestada          comida accidentalmente       accidente 
+##            0.27            0.25            0.24            0.24 
+##      aguantaría        alacanza            cojí      comentaria 
+##            0.24            0.24            0.24            0.24 
+##      comenzaria       comprarle        contaría      cumpleaños 
+##            0.24            0.24            0.24            0.24 
+##            dado             dan            dejé         despúes 
+##            0.24            0.24            0.24            0.24 
+##     devolverles       empezaria  esocompletaria     establecido 
+##            0.24            0.24            0.24            0.24 
+##           feria          formas       hablarian       inmediato 
+##            0.24            0.24            0.24            0.24 
+##        medarian         mirando        muchacho         navidad 
+##            0.24            0.24            0.24            0.24 
+##        pagarlel        prediria         prestan     rapidamente 
+##            0.24            0.24            0.24            0.24 
+##      recolectar          regaño           resta        restaran 
+##            0.24            0.24            0.24            0.24 
+##          romper           salir      trabajaria          usaria 
+##            0.24            0.24            0.24            0.24 
+##         colegio 
+##            0.21 
+## 
+## $padres
+##      presten          así   comentaria  conseguiría      negocio 
+##         0.54         0.34         0.32         0.32         0.32 
+##     pagarles      pondria       acudir        apoyo      arregle 
+##         0.32         0.32         0.31         0.31         0.31 
+##     devolver       empleo     hablaria        medio      ofrecen 
+##         0.31         0.31         0.31         0.31         0.31 
+##       opción       pagado       paguen       primer tranquilidad 
+##         0.31         0.31         0.31         0.31         0.31 
+##        única        venda        pagar    compañero     devuelvo 
+##         0.31         0.31         0.25         0.24         0.24 
+##      después       tiempo 
+##         0.22         0.21 
+## 
+## $amigo
+##       daría     celular      preste    producto       10000       20000 
+##        0.40        0.39        0.35        0.35        0.34        0.34 
+##     arreflo     arrglar      boleta        cojo   conceguir      cuidar 
+##        0.34        0.34        0.34        0.34        0.34        0.34 
+##       decir      empeño      estilo      gastar       hijos permitieran 
+##        0.34        0.34        0.34        0.34        0.34        0.34 
+##   prestados      quiera      recibo  transporte    variaría        vaya 
+##        0.34        0.34        0.34        0.34        0.34        0.34 
+##       mitad     pagarle      150000        rifa        casa      300000 
+##        0.33        0.33        0.29        0.29        0.28        0.26 
+##      llegar       pesos       cosas    familiar alternativa     castigo 
+##        0.26        0.25        0.24        0.22        0.21        0.21 
+##      darían dependiendo        hago       sacar      vender 
+##        0.21        0.21        0.21        0.21        0.21 
+## 
+## $dinero
+##        corto    ahorradda      asegure    confianza      consola 
+##         0.34         0.30         0.30         0.30         0.30 
+##  desarrollar    descuente        deseo   devolvería    escogería 
+##         0.30         0.30         0.30         0.30         0.30 
+##    facilitan        falte    favorable        gente        haber 
+##         0.30         0.30         0.30         0.30         0.30 
+##  habilidades       juegos      momento      permite       pronto 
+##         0.30         0.30         0.30         0.30         0.30 
+##          ps4        quedo    recolecte sinceramente  trescientos 
+##         0.30         0.30         0.30         0.30         0.30 
+##      unilago       usaría    venderlos       debido        banco 
+##         0.30         0.30         0.30         0.26         0.25 
+##    necesario     personas    conseguir   familiares        poder 
+##         0.25         0.25         0.23         0.22         0.22 
+##         iría     pantalla 
+##         0.21         0.21</code></pre>
+<p>Gruppo Control</p>
+<pre><code>## $plata
+##  afortunada     dañaría        dañó       darme     debería     limpiar 
+##        0.37        0.37        0.37        0.37        0.37        0.37 
+##   necesitar necesitaría     ocasión      propia   rapararlo    recaudar 
+##        0.37        0.37        0.37        0.37        0.37        0.37 
+##       saber      siento      ayudar         doy        mamá    prestada 
+##        0.37        0.37        0.33        0.33        0.33        0.33 
+##        mama        caso 
+##        0.32        0.30 
+## 
+## $padres
+##    devolvería        bobada    comprarían      contaría      descuido 
+##          0.45          0.44          0.44          0.44          0.44 
+##       hacerla      llegaría         parap          paso        pereza 
+##          0.44          0.44          0.44          0.44          0.44 
+## terminariamos         yendo     papelería           día 
+##          0.44          0.44          0.36          0.34 
+## 
+## $amigo
+##    cuaderno simplemente   cuadernos    prefiere    pregunto      quiera 
+##        0.42        0.38        0.37        0.37        0.37        0.37 
+##      revise       sitio        caso      cambio preguntaría       valor 
+##        0.37        0.37        0.35        0.33        0.33        0.33 
+##         voy      propia 
+##        0.33        0.31 
+## 
+## $dinero
+##     campus      larga   familiar   cantidad   buscaría     estilo 
+##       0.47       0.47       0.43       0.33       0.32       0.31 
+##       piso     reunir   gastando porcentaje 
+##       0.31       0.31       0.30       0.30</code></pre>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

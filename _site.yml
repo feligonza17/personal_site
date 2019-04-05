@@ -1,0 +1,7 @@
+name: "feli-website"
+output_dir: "."
+navbar:
+  title: "Coyuntura Económica"
+  left: 
+    - text: "Exploración Cualitativa"
+      href: index.html

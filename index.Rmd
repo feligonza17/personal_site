@@ -1,0 +1,213 @@
+---
+title: "Exploración Relaciones Cualitativas Ancho de Banda"
+author: "FGA"
+date: "5 de abril de 2019"
+output: html_document
+---
+
+---
+title: "PresentaciÃ³n Ancho de Banda"
+author: "FGA"
+date: "5 de abril de 2019"
+output:
+  beamer_presentation: default
+  ioslides_presentation: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library("tm")
+library("SnowballC")
+library("wordcloud")
+library("RColorBrewer")
+library("tidyr")
+library("dplyr")
+library("readxl")
+
+
+```
+ 
+
+```{r cars, echo = TRUE}
+df <- read_excel("~/Ancho de Banda/Datos Análisis éste sí.xlsx")
+
+
+# Nube de palabras con TODOS los datos ------------------------------------
+
+
+
+#Importarlo en la forma que se necesita para generar la nube de palabras
+dfCorpus <- VCorpus(VectorSource(df$`Respuesta Cualitativa`))
+
+# Convert the text to lower case
+dfCorpus <- tm_map(dfCorpus, content_transformer(tolower))
+# Remove spanish common stopwords
+dfCorpus <- tm_map(dfCorpus, removeWords, stopwords("spanish"))
+# Remove your own stop word
+# specify your stopwords as a character vector
+dfCorpus <- tm_map(dfCorpus, removeWords, c("pues")) 
+# Remove punctuations
+dfCorpus <- tm_map(dfCorpus, removePunctuation)
+
+#Generar frecuencia de palabras
+dtm <- TermDocumentMatrix(dfCorpus)
+m <- as.matrix(dtm)
+v <- sort(rowSums(m),decreasing=TRUE)
+d <- data.frame(word = names(v),freq=v)
+
+
+
+#Hacer asociasiones entre los términos
+
+findAssocs(dtm, terms = c("plata","padres","amigo"), corlimit = 0.2)
+```
+
+Esrato Alto
+
+```{r}
+# Nube de palabras con estrato alto ---------------------------------------
+
+#Importarlo en la forma que se necesita para generar la nube de palabras
+df_alto <- 
+  df %>% 
+  filter(`Puntaje INSE`>39)
+  
+dfCorpus_alto <- VCorpus(VectorSource(df_alto$`Respuesta Cualitativa`))
+
+
+# Convert the text to lower case
+dfCorpus_alto <- tm_map(dfCorpus_alto, content_transformer(tolower))
+# Remove spanish common stopwords
+dfCorpus_alto <- tm_map(dfCorpus_alto, removeWords, stopwords("spanish"))
+# Remove your own stop word
+# specify your stopwords as a character vector
+dfCorpus_alto <- tm_map(dfCorpus_alto, removeWords, c("pues")) 
+# Remove punctuations
+dfCorpus_alto <- tm_map(dfCorpus_alto, removePunctuation)
+
+#Generar frecuencia de palabras
+dtm <- TermDocumentMatrix(dfCorpus_alto)
+m <- as.matrix(dtm)
+v <- sort(rowSums(m),decreasing=TRUE)
+d <- data.frame(word = names(v),freq=v)
+
+
+#Hacer asociasiones entre los términos
+
+findAssocs(dtm, terms = c("plata","padres","amigo"), corlimit = 0.2)
+
+```
+
+Estrato Bajo
+
+```{r}
+# Asociaciones entre estrato bajo -----------------------------------------
+
+
+#Importarlo en la forma que se necesita para generar la nube de palabras
+df_bajo <- 
+  df %>% 
+  filter(`Puntaje INSE`<32)
+
+dfCorpus_bajo <- VCorpus(VectorSource(df_bajo$`Respuesta Cualitativa`))
+
+
+# Convert the text to lower case
+dfCorpus_bajo <- tm_map(dfCorpus_bajo, content_transformer(tolower))
+# Remove spanish common stopwords
+dfCorpus_bajo <- tm_map(dfCorpus_bajo, removeWords, stopwords("spanish"))
+# Remove your own stop word
+# specify your stopwords as a character vector
+dfCorpus_bajo <- tm_map(dfCorpus_bajo, removeWords, c("pues")) 
+# Remove punctuations
+dfCorpus_bajo <- tm_map(dfCorpus_bajo, removePunctuation)
+
+#Generar frecuencia de palabras
+dtm <- TermDocumentMatrix(dfCorpus_bajo)
+m <- as.matrix(dtm)
+v <- sort(rowSums(m),decreasing=TRUE)
+d <- data.frame(word = names(v),freq=v)
+
+
+
+#Hacer asociasiones entre los términos
+
+findAssocs(dtm, terms = c("plata","padres","amigo"), corlimit = 0.2)
+```
+
+Grupo Experimental
+
+```{r}
+#Importarlo en la forma que se necesita para generar la nube de palabras
+df_exp <- 
+  df %>% 
+  filter(Grupo==1)
+
+dfCorpus_exp <- VCorpus(VectorSource(df_exp$`Respuesta Cualitativa`))
+
+
+# Convert the text to lower case
+dfCorpus_exp <- tm_map(dfCorpus_exp, content_transformer(tolower))
+# Remove spanish common stopwords
+dfCorpus_exp <- tm_map(dfCorpus_exp, removeWords, stopwords("spanish"))
+# Remove your own stop word
+# specify your stopwords as a character vector
+dfCorpus_exp <- tm_map(dfCorpus_exp, removeWords, c("pues")) 
+# Remove punctuations
+dfCorpus_exp <- tm_map(dfCorpus_exp, removePunctuation)
+
+#Generar frecuencia de palabras
+dtm <- TermDocumentMatrix(dfCorpus_exp)
+m <- as.matrix(dtm)
+v <- sort(rowSums(m),decreasing=TRUE)
+d <- data.frame(word = names(v),freq=v)
+
+
+
+#Hacer asociasiones entre los términos
+
+findAssocs(dtm, terms = c("plata","padres","amigo", "dinero"), corlimit = 0.2)
+
+```
+
+Gruppo Control
+
+```{r}
+# Asociaciones entre grupo control (cuaderno)-----------------------------------------
+ 
+ 
+ #Importarlo en la forma que se necesita para generar la nube de palabras
+ 
+ 
+ df_control <- 
+   df %>% 
+   filter(Grupo==2)
+ 
+ 
+ dfCorpus_control <- VCorpus(VectorSource(df_control$`Respuesta Cualitativa`))
+ 
+ 
+ # Convert the text to lower case
+ dfCorpus_control <- tm_map(dfCorpus_control, content_transformer(tolower))
+ # Remove spanish common stopwords
+ dfCorpus_control <- tm_map(dfCorpus_control, removeWords, stopwords("spanish"))
+ # Remove your own stop word
+ # specify your stopwords as a character vector
+ dfCorpus_control <- tm_map(dfCorpus_control, removeWords, c("pues")) 
+ # Remove punctuations
+ dfCorpus_control <- tm_map(dfCorpus_control, removePunctuation)
+ 
+ #Generar frecuencia de palabras
+ dtm <- TermDocumentMatrix(dfCorpus_control)
+ m <- as.matrix(dtm)
+ v <- sort(rowSums(m),decreasing=TRUE)
+ d <- data.frame(word = names(v),freq=v)
+ 
+ 
+ 
+ #Hacer asociasiones entre los términos
+ findAssocs(dtm, terms = c("plata","padres","amigo", "dinero"), corlimit = 0.3)
+ 
+```
+
+
